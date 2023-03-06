@@ -13,7 +13,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $cate = Categories::all();
-        return response()->json($cate);
+        return view('category.cateShow')->with($cate);
     }
 
     /**
@@ -21,7 +21,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        $cate = Categories::all();
+        return view('category.cateCreate')->with($cate);
     }
 
     /**
@@ -34,7 +35,7 @@ class CategoriesController extends Controller
         $cate->description = $request->input('description');
         $cate->quantity = $request->input('quantity');
         $cate->save();
-        return response()->json($cate);
+        return redirect('/category/cateShow');
     }
 
     /**
@@ -48,9 +49,10 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categories $categories)
+    public function edit($id)
     {
-        //
+        $cate = Categories::find($id);
+        return view('category.cateUpdate')->with($cate);
     }
 
     /**
@@ -64,7 +66,7 @@ class CategoriesController extends Controller
                 'description' => $request->input('description'),
                 'quantity' => $request->input('quantity')
             ]);
-        return response()->json($cate);
+        return redirect('/category/cateUpdate');
     }
 
     /**
@@ -74,6 +76,6 @@ class CategoriesController extends Controller
     {
         $cate = Categories::find($id);
         $cate->delete();
-        return response()->json();
+        return redirect('/category/cateShow');
     }
 }

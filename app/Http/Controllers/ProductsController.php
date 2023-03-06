@@ -13,7 +13,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Products::all();
-        return response()->json($products);
+        return view('product.productShow')->with($products);
     }
 
     /**
@@ -21,7 +21,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        $products = Products::all();
+        return view('product.productCreate')->with($products);
     }
 
     /**
@@ -37,7 +38,7 @@ class ProductsController extends Controller
         $products->thumbnail = $request->input('thumbnail');
         $products->categories_id = $request->input('categories_id');
         $products->save();
-        return response()->json($products);
+        return redirect('/product/productShow');
     }
 
     /**
@@ -51,9 +52,10 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $products)
+    public function edit($id)
     {
-        //
+        $products = Products::find($id);
+        return view('product.productUpdate')->with($products);
     }
 
     /**
@@ -69,7 +71,7 @@ class ProductsController extends Controller
                 'price' => $request->input('price'),
                 'thumbnail' => $request->input('thumbnail')
             ]);
-        return response()->json($products);
+        return redirect('/products/productsUpdate');
     }
 
     /**
@@ -79,6 +81,6 @@ class ProductsController extends Controller
     {
         $products = Products::find($id);
         $products->delete();
-        return response()->json($products);
+        return redirect('/product/productShow');
     }
 }
